@@ -10,12 +10,18 @@
 			href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css"
 		/>
 		<script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+		<script src="https://unpkg.com/jshashes/hashes.min.js"></script>
 
 		<script src="app.js" type="module"></script>
 	</head>
 	<body>
 		<div class="container" id="app">
+			<login-form
+				v-if="!isAuthenticated"
+				@authenticated="handleAuthentication"
+			></login-form>
 			<nazwiska
+				v-if="isAuthenticated"
 				description="Najpopularniejsze nazwiska w Polsce"
 			></nazwiska>
 		</div>

@@ -22,6 +22,14 @@ $sql = "SELECT nazwisko, plec, pozycja, liczba
         FROM nazwiska
         WHERE nazwisko LIKE :wzor";
         
+// $sql = "CREATE TABLE users (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     login TEXT,
+//     password TEXT)";
+// $sql = "INSERT INTO users
+// VALUES  (NULL, 'admin1', 'admin1'),
+//         (NULL, 'admin2', 'admin2')";
+// $sql = "SELECT * FROM users";
      
 $res = $db->prepare($sql);
 $res->bindValue(':wzor', "$filter%");
