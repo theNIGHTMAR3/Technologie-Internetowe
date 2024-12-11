@@ -6,32 +6,16 @@ const LoginForm = {
         return {
             username: '',
             password: '',
-            error: ''
+            error: '',
+            nonce:''
+
         };
     },
-    /*
-    template:`
-        <div class="login-form">
-            <h2>Login</h2>
-            <form @submit.prevent="login">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" v-model="username" class="form-control" id="username" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" v-model="password" class="form-control" id="password" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-                <p v-if="error" class="text-danger">{{ error }}</p>
-            </form>
-        </div>
-    `,*/
     template: /*html*/ `
     <div class="login-form">
             <h2>Login</h2>    
         <form @submit.prevent="Secure">
-            <input type="hidden" name="nonce" id="nonce" value="<?php $_SESSION['nonce'] = sha1(uniqid());" />
+            <input type="text" name="nonce" id="nonce" disabled />
 
             <div class="mb-3">
                 <label for="user" class="form-label">Login</label>
@@ -47,8 +31,25 @@ const LoginForm = {
     </div>
     `,
 
+    // metoda mounted jest uruchamiana przy starcie komponentu
+	async mounted() {
+        await this.GetNounce();
+	},
 
     methods: {
+        async GetNounce(){
+
+            var json = await(await fetch('nonce.php')).json();
+
+            // this.nounce = json?.nonce;
+            this.nonce = json['nonce'];
+
+            console.log(this.nounce);
+
+            document.getElementById('nonce').value = this.nonce;
+
+        },
+
         async Login() {
             // Send the login request to the server
             const response = await fetch('authenticate.php', {
@@ -78,8 +79,10 @@ const LoginForm = {
             var pass = document.getElementById('pass');
             // console.log("nounce: "+nonce.value);
             console.log("pass unsecure: "+pass.value);
-            // var MD5 = new Hashes.MD5;
-            // pass.value = MD5.hex(MD5.hex(pass.value) + nonce.value); 
+            console.log("nounce: "+nonce.value);
+            var MD5 = new Hashes.MD5;
+            pass.value = MD5.hex(MD5.hex(pass.value) + nonce.value); 
+            // pass.value = MD5.hex(pass.value); 
             // console.log("pass secure: "+pass.value);
             this.password = pass.value;
 

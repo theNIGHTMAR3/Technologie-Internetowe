@@ -26,9 +26,7 @@ $sql = "SELECT nazwisko, plec, pozycja, liczba
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
 //     login TEXT,
 //     password TEXT)";
-// $sql = "INSERT INTO users
-// VALUES  (NULL, 'admin1', 'admin1'),
-//         (NULL, 'admin2', 'admin2')";
+// $sql = "INSERT INTO users VALUES (NULL, 'admin3', '32cacb2f994f6b42183a1300d9a3e8d6')";
 // $sql = "SELECT * FROM users";
      
 $res = $db->prepare($sql);
